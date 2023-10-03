@@ -35,6 +35,7 @@ local fileway = getWorkingDirectory().."\\config\\update.json"
 
 function main()
     while not isSampAvailable() do wait(0) end
+    sampAddChatMessage("Hello Im Updated!", -1)
     sampRegisterChatCommand('fgps', cmd_find)
     sampRegisterChatCommand('fgpsmenu', cmd_findmenu)
     sampRegisterChatCommand('cords', function()
@@ -48,7 +49,7 @@ function main()
             fileupdate:close()
             local updatedecoded = decodeJson(b)
             if updatedecoded["currency_script_version"][1] > decodedJson["script_version"][1] then
-                sampAddChatMessage("Есть обновление скрипта, скачиваем...",-1)
+                sampAddChatMessage("Г…Г±ГІГј Г®ГЎГ­Г®ГўГ«ГҐГ­ГЁГҐ Г±ГЄГ°ГЁГЇГІГ , Г±ГЄГ Г·ГЁГўГ ГҐГ¬...",-1)
                 decodedJson["script_version"][1] = updatedecoded["currency_script_version"][1]
                 local encodedJson = encodeJson(decodedJson)
                 local file = io.open(filedirect, "w")
@@ -157,11 +158,11 @@ function imgui.OnDrawFrame()
     imgui.SetNextWindowSize(imgui.ImVec2(700, 400), imgui.Cond.FirstUseEver)
     imgui.Begin("FGPS", windowState, imgui.WindowFlags.NoResize + imgui.WindowFlags.NoMove + imgui.WindowFlags.NoTitleBar)
     imgui.BeginChild('', imgui.ImVec2(350, 385), true)
-        imgui.Text(u8"Если у вас не работает поиск, введите название вашего..")
-        imgui.Text(u8".. места на английском.")
-        imgui.Combo(u8'Места', combo_test, decodedJson["places"], decodedJson[#"places"])
-        imgui.InputText(u8'Введите название места', textBuffer)
-        if imgui.Button(u8'Сохранить название(поменять)', imgui.ImVec2(350, 20)) then
+        imgui.Text(u8"Г…Г±Г«ГЁ Гі ГўГ Г± Г­ГҐ Г°Г ГЎГ®ГІГ ГҐГІ ГЇГ®ГЁГ±ГЄ, ГўГўГҐГ¤ГЁГІГҐ Г­Г Г§ГўГ Г­ГЁГҐ ГўГ ГёГҐГЈГ®..")
+        imgui.Text(u8".. Г¬ГҐГ±ГІГ  Г­Г  Г Г­ГЈГ«ГЁГ©Г±ГЄГ®Г¬.")
+        imgui.Combo(u8'ГЊГҐГ±ГІГ ', combo_test, decodedJson["places"], decodedJson[#"places"])
+        imgui.InputText(u8'Г‚ГўГҐГ¤ГЁГІГҐ Г­Г Г§ГўГ Г­ГЁГҐ Г¬ГҐГ±ГІГ ', textBuffer)
+        if imgui.Button(u8'Г‘Г®ГµГ°Г Г­ГЁГІГј Г­Г Г§ГўГ Г­ГЁГҐ(ГЇГ®Г¬ГҐГ­ГїГІГј)', imgui.ImVec2(350, 20)) then
             decodedJson["places"][combo_test.v + 1] = textBuffer.v
             local encodedJson = encodeJson(decodedJson)
             local file = io.open(filedirect, "w")
@@ -169,24 +170,24 @@ function imgui.OnDrawFrame()
             file:flush()
             file:close()
         end
-        if imgui.Button(u8'Добавить новое место', imgui.ImVec2(350, 20)) then
+        if imgui.Button(u8'Г„Г®ГЎГ ГўГЁГІГј Г­Г®ГўГ®ГҐ Г¬ГҐГ±ГІГ®', imgui.ImVec2(350, 20)) then
             addplace = true
         end
         if addplace then
-            if imgui.Button(u8"Закрыть", imgui.ImVec2(350, 20)) then
+            if imgui.Button(u8"Г‡Г ГЄГ°Г»ГІГј", imgui.ImVec2(350, 20)) then
                 addplace = false
             end
-            imgui.InputText(u8'Введите название места(обезательно на английском)', textnewplace)
-            imgui.InputFloat(u8"Координаты X", textnewplaceX,1,1,3)
-            imgui.InputFloat(u8'Координаты Y', textnewplaceY,1,1,3)
-            imgui.InputFloat(u8"Координаты Z", textnewplaceZ,1,1,3)
-            if imgui.Button(u8"Вставить текушие координаты", imgui.ImVec2(350,20)) then
+            imgui.InputText(u8'Г‚ГўГҐГ¤ГЁГІГҐ Г­Г Г§ГўГ Г­ГЁГҐ Г¬ГҐГ±ГІГ (Г®ГЎГҐГ§Г ГІГҐГ«ГјГ­Г® Г­Г  Г Г­ГЈГ«ГЁГ©Г±ГЄГ®Г¬)', textnewplace)
+            imgui.InputFloat(u8"ГЉГ®Г®Г°Г¤ГЁГ­Г ГІГ» X", textnewplaceX,1,1,3)
+            imgui.InputFloat(u8'ГЉГ®Г®Г°Г¤ГЁГ­Г ГІГ» Y', textnewplaceY,1,1,3)
+            imgui.InputFloat(u8"ГЉГ®Г®Г°Г¤ГЁГ­Г ГІГ» Z", textnewplaceZ,1,1,3)
+            if imgui.Button(u8"Г‚Г±ГІГ ГўГЁГІГј ГІГҐГЄГіГёГЁГҐ ГЄГ®Г®Г°Г¤ГЁГ­Г ГІГ»", imgui.ImVec2(350,20)) then
                 local x, y, z = getCharCoordinates(PLAYER_PED)
                 textnewplaceX.v = x
                 textnewplaceY.v = y
                 textnewplaceZ.v = z
             end
-            if imgui.Button(u8"Готово!", imgui.ImVec2(350, 20)) then
+            if imgui.Button(u8"ГѓГ®ГІГ®ГўГ®!", imgui.ImVec2(350, 20)) then
                 table.insert(decodedJson["places"], textnewplace.v)
                 table.insert(decodedJson["placesX"], textnewplaceX.v)
                 table.insert(decodedJson["placesY"], textnewplaceY.v)
@@ -197,8 +198,8 @@ function imgui.OnDrawFrame()
     imgui.EndChild()
     imgui.SameLine()
         imgui.BeginChild('Delete', imgui.ImVec2(350, 385), true)
-            imgui.Combo('Места для удаления', combo_test2, decodedJson["places"], decodedJson[#"places"])
-            if imgui.Button(u8"Удалить место(которое выбрано выше)", imgui.ImVec2(350,20)) then
+            imgui.Combo('ГЊГҐГ±ГІГ  Г¤Г«Гї ГіГ¤Г Г«ГҐГ­ГЁГї', combo_test2, decodedJson["places"], decodedJson[#"places"])
+            if imgui.Button(u8"Г“Г¤Г Г«ГЁГІГј Г¬ГҐГ±ГІГ®(ГЄГ®ГІГ®Г°Г®ГҐ ГўГ»ГЎГ°Г Г­Г® ГўГ»ГёГҐ)", imgui.ImVec2(350,20)) then
                 table.remove(decodedJson["places"], combo_test2.v + 1)
                 table.remove(decodedJson["placesX"], combo_test2.v + 1)
                 table.remove(decodedJson["placesY"], combo_test2.v + 1)
